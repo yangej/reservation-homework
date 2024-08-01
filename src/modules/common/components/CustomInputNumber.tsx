@@ -9,6 +9,8 @@ const PRIMARY_COLOR = "#69b1ff";
 const NEUTRAL_COLOR = "#d9d9d9";
 const DISABLED_COLOR = "#8c8c8c";
 
+const STEP_INTERVAL = 150;
+
 const Container = styled.div`
   display: flex;
   gap: 8px;
@@ -72,18 +74,40 @@ const CustomInputNumber = ({
   onBlur,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval>>();
 
   const isDecreaseButtonDisabled = disabled || value <= min;
   const isIncreaseButtonDisabled = disabled || value >= max;
 
   const handleIncrease = () => {
     inputRef.current?.stepUp();
-    inputRef.current?.dispatchEvent(new Event('input', { bubbles: true }))
+    inputRef.current?.dispatchEvent(new Event("input", { bubbles: true }));
   };
 
   const handleDecrease = () => {
     inputRef.current?.stepDown();
-    inputRef.current?.dispatchEvent(new Event('input', { bubbles: true }))
+    inputRef.current?.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  const createPressStartHandler = (fn: () => void) => {
+    return () => {
+      function loop() {
+        clearTimeout(timerRef.current);
+        
+        timerRef.current = setTimeout(loop, STEP_INTERVAL);
+
+        fn();
+      }
+
+      loop();
+    }
+  }
+
+  const handlePressIncreaseStart = createPressStartHandler(handleIncrease);
+  const handlePressDecreaseStart = createPressStartHandler(handleDecrease);
+
+  const handlePressEnd = () => {
+    clearTimeout(timerRef.current);
   };
 
   return (
@@ -91,7 +115,10 @@ const CustomInputNumber = ({
       <Button
         type="button"
         disabled={isDecreaseButtonDisabled}
-        onClick={handleDecrease}
+        onMouseDown={handlePressDecreaseStart}
+        onMouseUp={handlePressEnd}
+        onTouchStart={handlePressDecreaseStart}
+        onTouchEnd={handlePressEnd}
       >
         <MinusIcon
           $color={isDecreaseButtonDisabled ? DISABLED_COLOR : PRIMARY_COLOR}
@@ -113,7 +140,10 @@ const CustomInputNumber = ({
       <Button
         type="button"
         disabled={isIncreaseButtonDisabled}
-        onClick={handleIncrease}
+        onMouseDown={handlePressIncreaseStart}
+        onMouseUp={handlePressEnd}
+        onTouchStart={handlePressIncreaseStart}
+        onTouchEnd={handlePressEnd}
       >
         <PlusIcon
           $color={isIncreaseButtonDisabled ? DISABLED_COLOR : PRIMARY_COLOR}
