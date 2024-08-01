@@ -75,18 +75,22 @@ const RoomAllocation = ({ guest, rooms, onChange }: RoomAllocationProps) => {
         {`尚未分配人數：${remainingGuest.adult} 位大人，${remainingGuest.child} 位小孩`}
       </Alert>
       <RoomItemContainer>
-        {rooms.map((room, index) => (
-          <RoomAllocationItem
-            key={`room-${index}`}
-            title={`房間：${allocations[index].adult + allocations[index].child} 人`}
-            current={fromAllocationToGuest(allocations[index])}
-            remaining={remainingGuest}
-            room={room}
-            onChange={(value) => {
-              handleChange(value, index);
-            }}
-          />
-        ))}
+        {rooms.map((room, index) => {
+          const currentGuest = fromAllocationToGuest(allocations[index]);
+
+          return (
+            <RoomAllocationItem
+              key={`room-${index}`}
+              title={`房間：${currentGuest.adult + currentGuest.child} 人`}
+              current={currentGuest}
+              remaining={remainingGuest}
+              room={room}
+              onChange={(value) => {
+                handleChange(value, index);
+              }}
+            />
+          )
+        })}
       </RoomItemContainer>
     </Container>
   );
