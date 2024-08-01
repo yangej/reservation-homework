@@ -4,7 +4,6 @@ import type { Guest } from "@/modules/guest/types";
 import type { Room } from "@/modules/room/types";
 import CustomInputNumber from "@/modules/common/components/CustomInputNumber";
 
-
 const HINT_COLOR = "#8c8c8c";
 const BORDER_COLOR = "#d9d9d9";
 

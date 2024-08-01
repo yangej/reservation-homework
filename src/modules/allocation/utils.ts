@@ -1,3 +1,4 @@
+import { pick } from "../common/utils";
 import type { Guest } from "../guest/types";
 import type { Room } from "../room/types";
 import type { Allocation } from "./types";
@@ -8,7 +9,7 @@ const DEFAULT_ALLOCATION: Allocation = {
   price: 0,
 };
 
-const calculateRoomPrice = (guest: Guest, room: Room) => {
+export const calculateRoomPrice = (guest: Guest, room: Room) => {
   if (guest.adult === 0 && guest.child === 0) return 0;
 
   return (
@@ -93,4 +94,24 @@ export const getDefaultRoomAllocation = (guest: Guest, rooms: Room[]) => {
   allocate(initialAllocation, guest.adult, guest.child, 0);
 
   return minTotal === Infinity ? initialAllocation : result;
+};
+
+export const getAllocatedGuest = (allocations: Allocation[]): Guest => {
+  return allocations.reduce<Guest>(
+    (acc, cur) => ({
+      adult: acc.adult + cur.adult,
+      child: acc.child + cur.child,
+    }),
+    { adult: 0, child: 0 }
+  );
+};
+
+export const getOcuppiedAllocations = (allocations: Allocation[]) => {
+  return allocations.filter(
+    (allocation) => allocation.adult > 0 || allocation.child > 0
+  );
+};
+
+export const fromAllocationToGuest = (allocation: Allocation): Guest => {
+  return pick(allocation, ["adult", "child"]);
 };
