@@ -14,7 +14,7 @@ const Container = styled.div`
   padding: 12px 0;
   border-bottom: 1px solid ${BORDER_COLOR};
 
-  &:nth-last-child(1) {
+  &:nth-last-of-type(1) {
     border-bottom: none;
   }
 `;
