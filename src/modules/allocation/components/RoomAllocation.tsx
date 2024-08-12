@@ -9,7 +9,7 @@ import {
   fromAllocationToGuest,
   getAllocatedGuest,
   getDefaultRoomAllocation,
-  getOcuppiedAllocations,
+  getOccupiedAllocations,
 } from "../utils";
 import type { Allocation } from "../types";
 import RoomAllocationItem from "./RoomAllocationItem";
@@ -69,7 +69,7 @@ const RoomAllocation = ({ guest, rooms, onChange }: RoomAllocationProps) => {
   return (
     <Container>
       <Title>{`住客人數：${guest.adult} 位大人，${guest.child} 位小孩 / ${
-        getOcuppiedAllocations(allocations).length
+        getOccupiedAllocations(allocations).length
       } 房`}</Title>
       <Alert>
         {`尚未分配人數：${remainingGuest.adult} 位大人，${remainingGuest.child} 位小孩`}

@@ -106,7 +106,7 @@ export const getAllocatedGuest = (allocations: Allocation[]): Guest => {
   );
 };
 
-export const getOcuppiedAllocations = (allocations: Allocation[]) => {
+export const getOccupiedAllocations = (allocations: Allocation[]) => {
   return allocations.filter(
     (allocation) => allocation.adult > 0 || allocation.child > 0
   );
