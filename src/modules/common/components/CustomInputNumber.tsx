@@ -94,9 +94,9 @@ const CustomInputNumber = ({
       function loop() {
         clearTimeout(timerRef.current);
         
-        timerRef.current = setTimeout(loop, STEP_INTERVAL);
-
         fn();
+
+        timerRef.current = setTimeout(loop, STEP_INTERVAL);
       }
 
       loop();
