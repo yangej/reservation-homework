@@ -74,7 +74,7 @@ const CustomInputNumber = ({
   onBlur,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const isDecreaseButtonDisabled = disabled || value <= min;
   const isIncreaseButtonDisabled = disabled || value >= max;
