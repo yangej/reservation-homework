@@ -20,7 +20,9 @@ export const calculateRoomPrice = (guest: Guest, room: Room) => {
 };
 
 export const getDefaultRoomAllocation = (guest: Guest, rooms: Room[]) => {
-  let result: Allocation[] = [];
+  let result: Allocation[] = Array<Allocation>(rooms.length).fill(
+    DEFAULT_ALLOCATION
+  );
   let minTotal = Infinity;
 
   const allocate = (
@@ -88,12 +90,9 @@ export const getDefaultRoomAllocation = (guest: Guest, rooms: Room[]) => {
   };
 
   // Start allocation with the initial values
-  const initialAllocation = Array<Allocation>(rooms.length).fill(
-    DEFAULT_ALLOCATION
-  );
-  allocate(initialAllocation, guest.adult, guest.child, 0);
+  allocate(result, guest.adult, guest.child, 0);
 
-  return minTotal === Infinity ? initialAllocation : result;
+  return result;
 };
 
 export const getAllocatedGuest = (allocations: Allocation[]): Guest => {
