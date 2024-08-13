@@ -81,12 +81,10 @@ const CustomInputNumber = ({
 
   const handleIncrease = () => {
     inputRef.current?.stepUp();
-    inputRef.current?.dispatchEvent(new Event("input", { bubbles: true }));
   };
 
   const handleDecrease = () => {
     inputRef.current?.stepDown();
-    inputRef.current?.dispatchEvent(new Event("input", { bubbles: true }));
   };
 
   const createPressStartHandler = (fn: () => void) => {
@@ -108,6 +106,7 @@ const CustomInputNumber = ({
 
   const handlePressEnd = () => {
     clearTimeout(timerRef.current);
+    inputRef.current?.dispatchEvent(new Event("input", { bubbles: true }));
   };
 
   return (
