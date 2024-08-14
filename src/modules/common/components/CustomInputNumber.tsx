@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import styled from "@emotion/styled";
 import { ChangeEventHandler, FocusEventHandler, useRef } from "react";
@@ -90,8 +90,6 @@ const CustomInputNumber = ({
   const createPressStartHandler = (fn: () => void) => {
     return () => {
       function loop() {
-        clearTimeout(timerRef.current);
-        
         fn();
 
         timerRef.current = setTimeout(loop, STEP_INTERVAL);
