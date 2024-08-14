@@ -59,22 +59,20 @@ interface Props {
 }
 
 const RoomItemAllocation = ({ title, room, current, remaining, onChange }: Props) => {
+  const remainingCapacity = room.capacity - current.child - current.adult;
+
+  const getMinAdult = () => {
+    return current.child > 0 ? 1 : 0;
+  }
+
   const getMaxAdult = () => {
-    const remainingCapacity = room.capacity - current.child;
-
-    if (remainingCapacity <= 0 || remaining.adult <= 0) return current.adult;
-
-    return Math.min(remaining.adult + current.adult, remainingCapacity);
+    return current.adult + Math.min(remaining.adult, remainingCapacity);
   };
 
   const getMaxChild = () => {
     if (current.adult <= 0) return 0;
-    
-    const remainingCapacity = room.capacity - current.adult;
 
-    if (remainingCapacity <= 0 || remaining.child <= 0) return current.child;
-
-    return Math.min(remaining.child + current.child, remainingCapacity);
+    return current.child + Math.min(remaining.child, remainingCapacity);
   };
 
   return (
@@ -88,7 +86,7 @@ const RoomItemAllocation = ({ title, room, current, remaining, onChange }: Props
           </LabelContainer>
           <CustomInputNumber
             value={current.adult}
-            min={current.child > 0 ? 1 : 0}
+            min={getMinAdult()}
             max={getMaxAdult()}
             onChange={(e) => {
               onChange({ ...current, adult: Number(e.target.value) || 0 });
